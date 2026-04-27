@@ -9,7 +9,7 @@ DELAY_RANGE = (40, 60)
 
 async def send_message(client, user_id, message, account_session):
     try:
-        await client.send_message(user_id, message)  # Добавлено await
+        await client.send_message(user_id, message)
         update_user_status(user_id, "sent")
         update_user_account_session(user_id, account_session)
         print(f'ПОЛЬЗОВАТЕЛЮ ПРИСВОЕНА {user_id}: {account_session}')
@@ -20,9 +20,8 @@ async def send_message(client, user_id, message, account_session):
 
 
 async def send_audio(client, user_id, audio_path):
-    """Отправляет аудиофайл пользователю."""
     try:
-        await client.send_audio(user_id, audio_path)  # Добавьте await
+        await client.send_audio(user_id, audio_path) 
         return True
     except Exception as e:
         print(f"Ошибка отправки аудио пользователю {user_id}: {e}")
@@ -31,8 +30,6 @@ async def send_audio(client, user_id, audio_path):
 
 
 async def start_sending_messages(client, group_name, account):
-    """Основной цикл рассылки сообщений."""
-
     users = get_users_for_messaging(limit=150)
 
     print(f"[DEBUG] Список пользователей для рассылки: {users}")
