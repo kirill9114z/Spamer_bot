@@ -20,7 +20,6 @@ def update_user_account_session(user_id, account_session):
 
 
 def get_user_account_session(user_id):
-    """Возвращает сессию аккаунта, связанную с пользователем."""
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -39,7 +38,6 @@ def get_user_account_session(user_id):
 
 
 def execute_query(query, params=()):
-    """Выполняет запрос к базе данных с использованием блокировки."""
     with db_lock:
         conn = get_connection()
         cursor = conn.cursor()
@@ -112,7 +110,6 @@ def get_users_for_messaging(limit=150):
 
 
 def add_account(session, proxy, daily_limit=150):
-    """Добавляет аккаунт в таблицу accounts."""
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -124,7 +121,6 @@ def add_account(session, proxy, daily_limit=150):
 
 
 def update_account_sent_today(session, count):
-    """Обновляет количество отправленных сообщений для аккаунта."""
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -137,7 +133,6 @@ def update_account_sent_today(session, count):
 
 
 def initialize_database():
-    """Создает таблицы для проекта, если они еще не существуют."""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
@@ -186,10 +181,6 @@ def initialize_database():
 
 
 def reset_daily_sent():
-    """
-    Сбрасывает счетчик отправленных сообщений для всех аккаунтов,
-    если с последнего сброса прошло 24 часа.
-    """
     conn = get_connection()
     cursor = conn.cursor()
 
@@ -211,7 +202,6 @@ def reset_daily_sent():
 
 
 def add_group(group_name):
-    """Добавляет группу в таблицу groups."""
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -223,7 +213,6 @@ def add_group(group_name):
 
 
 def update_group_last_updated(group_name):
-    """Обновляет дату последнего обновления группы."""
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
@@ -236,7 +225,6 @@ def update_group_last_updated(group_name):
 
 
 def get_all_groups():
-    """Получает список всех групп."""
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT group_name FROM groups")
@@ -250,7 +238,7 @@ def add_column_if_not_exists():
     cursor = conn.cursor()
 
     cursor.execute("PRAGMA table_info(users)")
-    columns = [row[1] for row in cursor.fetchall()]  # Получаем имена столбцов
+    columns = [row[1] for row in cursor.fetchall()]  
 
     if 'account_session' not in columns:
         cursor.execute("ALTER TABLE users ADD COLUMN account_session TEXT")
@@ -259,7 +247,6 @@ def add_column_if_not_exists():
     conn.commit()
     conn.close()
 def debug_users():
-    """Выводит данные всех пользователей из таблицы."""
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT user_id, username, account_session, status FROM users")
@@ -270,7 +257,6 @@ def debug_users():
         print(f"  user_id: {user[0]}, username: {user[1]}, account_session: {user[2]}, status: {user[3]}")
 
 def debug_users_changes():
-    """Отслеживает изменения в таблице users."""
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT user_id, username, account_session, status FROM users")
@@ -281,7 +267,6 @@ def debug_users_changes():
         print(f"  user_id: {user[0]}, username: {user[1]}, account_session: {user[2]}, status: {user[3]}")
 
 def reset_user_status():
-    """Сбрасывает статус всех пользователей на 'new'."""
     conn = get_connection()
     cursor = conn.cursor()
     try:
@@ -298,7 +283,6 @@ def reset_user_status():
 
 
 def clear_users():
-    """Удаляет всех пользователей из таблицы users."""
     conn = get_connection()
     cursor = conn.cursor()
     try:
