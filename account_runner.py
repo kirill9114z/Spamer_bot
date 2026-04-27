@@ -17,9 +17,6 @@ def run_account(account):
 
 
 def run_all_accounts():
-    """
-    Последовательный запуск всех аккаунтов с задержкой.
-    """
     accounts = ACCOUNTS.copy()
     random.shuffle(accounts) 
 
