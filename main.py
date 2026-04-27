@@ -43,7 +43,6 @@ async def initialize_client(account):
 
 
 async def run_account_workflow(client, account):
-    """Рабочий процесс: рассылка сообщений и запуск мониторинга."""
     if client is None:
         print(f"[ERROR] Клиент для {account['session_name']} не был создан.")
         return
@@ -51,7 +50,6 @@ async def run_account_workflow(client, account):
     try:
         print(f"[INFO] Аккаунт {account['session_name']} начал работу.")
 
-        # Запускаем мониторинг сообщений как фоновую задачу
         asyncio.create_task(monitor_replies_for_account(client, clients))
 
         grupp = ['stokvostok']
@@ -80,7 +78,6 @@ def debug_clients():
 
 
 async def monitor_replies(client):
-    """Асинхронный мониторинг сообщений."""
     try:
         print(f"[DEBUG] Начало мониторинга сообщений для клиента: {client}")
 
